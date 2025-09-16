@@ -7,13 +7,18 @@
   <style>
     body { font-family: Arial, sans-serif; background: #f8fafc; display:flex; justify-content:center; align-items:center; min-height:100vh; margin:0; }
     .card { background:#fff; border-radius:16px; box-shadow:0 4px 10px rgba(0,0,0,0.1); padding:24px; max-width:350px; width:100%; text-align:center; }
-    .check { display:flex; justify-content:center; align-items:center; width:96px; height:96px; border-radius:50%; background:#dcfce7; margin:0 auto 16px; }
+    .check { display:flex; justify-content:center; align-items:center; width:96px; height:96px; border-radius:50%; background:#dcfce7; margin:0 auto 16px; animation: pulse 1.5s infinite; }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
     .check svg { width:48px; height:48px; stroke:#16a34a; stroke-width:2; fill:none; }
     h2 { font-size:20px; font-weight:600; margin:8px 0 4px; }
     p { color:#6b7280; font-size:14px; margin:0 0 16px; }
     .row { display:flex; justify-content:space-between; margin:8px 0; font-size:14px; }
-    .label { color:#374151; }
-    .value { font-weight:500; text-align:right; }
+    .label { color:#374151; text-align:left; }
+    /* 统一右侧字体样式 */
+    .value { font-weight:500; text-align:right; color:#374151; font-size:14px; font-family:Arial, sans-serif; }
     .btns { display:flex; gap:8px; margin-top:16px; }
     button { flex:1; padding:8px; border-radius:8px; border:1px solid #e5e7eb; background:#f9fafb; cursor:pointer; font-size:14px; }
     button:hover { background:#f3f4f6; }
@@ -22,13 +27,22 @@
 <body>
   <div class="card">
     <div class="check">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
     </div>
-    <h2 id="status">检验合格</h2>
+    <h2 id="status">检验合格有效</h2>
     <p>检验结果</p>
-    <div class="row"><span class="label">有效期</span><span class="value" id="validUntil">2026-09-15</span></div>
-    <div class="row"><span class="label">送检单位</span><span class="value" id="sender">某某检测中心</span></div>
-    <div class="row"><span class="label">检验日期</span><span class="value" id="inspectionDate">2025-09-16</span></div>
+
+    <div class="row"><span class="label">试验日期</span><span class="value" id="inspectionDate">2025-09-16</span></div>
+    <div class="row"><span class="label">有效期至</span><span class="value" id="validUntil">2026-09-15</span></div>
+    <div class="row"><span class="label">送检单位</span><span class="value" id="sender">山西同邦建设有限公司</span></div>
+
+    <!-- 下方三行，和上方保持一致行距和字体 -->
+    <div class="row"><span class="label">外观状态</span><span class="value">无异常</span></div>
+    <div class="row"><span class="label">性能状态</span><span class="value">无异常</span></div>
+    <div class="row"><span class="label">试验结论</span><span class="value">符合要求</span></div>
+
     <div class="btns">
       <button onclick="window.print()">打印</button>
       <button onclick="copyInfo()">复制</button>
@@ -36,7 +50,7 @@
   </div>
   <script>
     function copyInfo(){
-      const text = `状态：${document.getElementById('status').textContent}\n有效期：${document.getElementById('validUntil').textContent}\n送检单位：${document.getElementById('sender').textContent}\n检验日期：${document.getElementById('inspectionDate').textContent}`;
+      const text = `状态：${document.getElementById('status').textContent}\n试验日期：${document.getElementById('inspectionDate').textContent}\n有效期至：${document.getElementById('validUntil').textContent}\n送检单位：${document.getElementById('sender').textContent}\n外观状态 无异常\n性能状态 无异常\n试验结论 符合要求`;
       navigator.clipboard.writeText(text);
       alert("已复制到剪贴板");
     }
